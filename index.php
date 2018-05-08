@@ -1,22 +1,27 @@
 <?php  
 
-// echo "Hola Ricardo2";
-// 
+/**
+ * Pendientes:
+ *     - Mostrar solo los archivos de una lista de extenciones pedidas.
+ *     - Hacer un mejor copyrigth.
+ *     - Limpiar còdigo basura.
+ */
+
 	
-function listar_archivos($carpeta){
-    if(is_dir($carpeta)){
-        if($dir = opendir($carpeta)){
-            while(($archivo = readdir($dir)) !== false){
-                if($archivo != '.' && $archivo != '..' && $archivo != '.htaccess'){
-                    echo '<li><a target="_blank" href="'.$carpeta.'/'.$archivo.'">'.$archivo.'</a></li>';
+function lstPelis($dori='.'){
+    if(is_dir($dori)){
+        if($d = opendir($dori)){
+            while(($arch = readdir($d)) !== false){
+                if($arch != '.' && $arch != '..' && $arch != '.htaccess'){
+                    echo '<li><a target="_blank" href="'.$dori.'/'.$arch.'">'.$arch.'</a></li>';
                 }
             }
-            closedir($dir);
+            closedir($d);
         }
     }
 }
  
-echo listar_archivos('.');
+echo lstPelis();
 
 /**
  * Retorna un array de archivos.
