@@ -1,22 +1,35 @@
 <?php  
 
 /**
- * Pendientes:
+ * Terminados:
  *     - Mostrar solo los archivos de una lista de extenciones pedidas.
+ * Pendientes:
  *     - Hacer un mejor copyrigth.
- *     - Limpiar còdigo basura.
+ *     - Limpiar código basura.
+ * 
  */
 
+
 	
-function lstPelis(
-    $dorgen  = '.',
-    $eactdas = ['.mp4'],
-    $angdos  = ['.', '..', '.htaccess']
+function lstPelis( 
+    $dorgen  = '.', 
+    $eactdas = array('mp4'), 
+    $angdos  = array('.', '..', '.htaccess')
 ){
     if( is_dir($dorgen) ){
         if( $dir = opendir($dorgen) ){
             while( ($arch = readdir($dir)) !== false ){
+                
+                if( !in_array(strtolower(end(explode('.', $arch))), $eactdas) ) continue;
+                // explode('.', xxx)        --> Divide xxx en array por el punto.
+                // end( xxx )               --> Toma el último elemento del array.
+                // strtolower ( xxx )       --> Pasa a minúsculas xxx.
+                // !in_array( xxx , array ) --> Verifica si xxx NO está en el array.
+                // if( xxx ) continue       --> Salta y sigue el while.
+                
                 if( in_array($arch, $angdos) ) continue;
+                // in_array( xxx , array )  --> Verifica si xxx ESTA en el array.
+                // if( xxx ) continue       --> Salta y sigue el while.
 
                 echo '<li><a target="_blank" href="'.$dorgen.'/'.$arch.'">'.$arch.'</a></li>';
             }
