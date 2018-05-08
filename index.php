@@ -1,6 +1,6 @@
 <?php  
 
-// echo "Hola Ricardo";
+// echo "Hola Ricardo2";
 // 
 	
 function listar_archivos($carpeta){
