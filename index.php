@@ -4,6 +4,7 @@
  * Terminados:
  *     - Mostrar solo los archivos de una lista de extenciones pedidas.
  * Pendientes:
+ *     - Comentar mejor.
  *     - Hacer un mejor copyrigth.
  *     - Limpiar código basura.
  * 
@@ -61,34 +62,63 @@ function lstArchs(
             closedir($dir);
         }
     }
-    if ( count($lst) ) sort($lst);
+    if ( count($lst) ) {
+        sort($lst);
+        return $lst;
+    }
     else return 0;
 }
 
 function lstDirs( 
     $dori = '.', 
-    $outs = array()
+    $outs = array( '.', '..', '.git' )
 ){
     $lst = array();
     if( is_dir($dori) ){
         if( $dir = opendir($dori) ){
-            while( ($dir = readdir($dir)) !== false ){
-                if( !is_dir($dori) ) continue;
-                    // Salta si no es directorio.
-                if( in_array($dir, $outs) ) continue; 
+            while( ($res = readdir($dir)) !== false ){
+                if( in_array($res, $outs) ) continue; 
                     // Salta si el directorio está en la lista de los negados.
-                $lst[] = $dir;
-                    //Carga en el array el directorio.
+                if( is_dir($res) ) $lst[] = $res;
+                    // Carga en el array si es directorio.
+                
             }
             closedir($dir);
         }
     }
-    if ( count($lst) ) sort($lst);
+    if ( count($lst) ) {
+        sort($lst);
+        return $lst;
+    }
     else return 0;
 }
 
-echo "<p><h1><center>rmPelis</center></h1></p>";
+function getLi(
+    $dir = '',
+    $arch = ''
+){
+    return "<li><a target='_blank' href='$dir/$arch'>$arch</a></li>";
+}
 
-echo lstPelis();
+$dirs = lstDirs();
+foreach ($dirs as $dir) {
+    echo "<li>$dir</li>";
+    $archs = lstArchs($dir, array('mp4'), array('.', '..'));
+    echo "<ul>";
+    foreach ($archs as $arch) echo getLi( $dir, $arch );
+    echo "</ul>";
+
+}
+
+// is_dir(filename)
+// Arma los ul
+//var_dump($dirs);
+// echo "<pre>";
+// var_dump($archs);
+// echo "</pre>";
+
+// echo "<p><h1><center>rmPelis</center></h1></p>";
+
+// echo lstPelis();
 
 ?>
